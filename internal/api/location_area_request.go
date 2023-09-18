@@ -15,8 +15,6 @@ func (c *Client) ListLocationAreas(pageUrl *string) (LocationArea, error) {
 	}
 	data, ok := c.cache.Get(fullURL)
 	if ok{
-	// cache hit
-	fmt.Println("cache hit")	
 	locationAreaResp := LocationArea{}
 	err := json.Unmarshal(data, &locationAreaResp)
 	if err != nil{
@@ -24,7 +22,7 @@ func (c *Client) ListLocationAreas(pageUrl *string) (LocationArea, error) {
 	}
 	return locationAreaResp, nil
 }
-fmt.Println("cache miss")
+
 	req, err := http.NewRequest("GET", fullURL, nil)
 	if err != nil {
 		return LocationArea{} , err
@@ -81,4 +79,31 @@ func (c *Client) Xplore(input string) (XploreArea, error){
 	
 	return xploreAreaResp, nil
 
+}
+func (c * Client) PokeData(input string) (PokemonData, error) {
+	endpoint := "/pokemon/" + input
+	fullUrl := baseUrl + endpoint
+
+	req, err := http.NewRequest("GET", fullUrl, nil)
+	if err != nil{
+		return PokemonData{}, err
+	}
+	resp, err := c.httpClient.Do(req)
+	if err!=nil{
+		return PokemonData{}, err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode > 399 {
+		return  PokemonData{} , fmt.Errorf("bad status code: %v", resp.StatusCode)
+	}
+	data, err := io.ReadAll(resp.Body)
+	if err != nil{
+		return PokemonData{}, err
+	}
+	pokemonDataResp := PokemonData{}
+	err = json.Unmarshal(data, &pokemonDataResp)
+	if err != nil{
+		return PokemonData{}, err
+	}
+	return pokemonDataResp, nil
 }

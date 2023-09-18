@@ -17,6 +17,7 @@ type config struct{
 
 func startRepl(cfg *config){
 	reader := bufio.NewScanner(os.Stdin)
+	fmt.Println("Enter <help> to search list of commands")
 	for {
 		fmt.Print("Pokedex > ")
 		reader.Scan()
@@ -86,6 +87,16 @@ func getCommands() map[string]cliCommand {
 			name:        "explore <area_name>",
 			description: "List of pokemons in the area",
 			callback:    commandExplore,
+		},
+		"catch":{
+			name:        "catch <pokemon_name>",
+			description: "Catch Pokemon",
+			callback:    commandCatch,
+		},
+		"inspect":{
+			name:        "inspect <pokemon_name>",
+			description: "Inspect Pokemon",
+			callback:    commandInspect,
 		},
 	}
 }
