@@ -3,12 +3,14 @@ package main
 import (
 	"fmt"
 	"log"
-
+     "errors"
 
 )
 
-func commandMap(cfg *config) error {
-	
+func commandMap(cfg *config, i string) error {
+	if len(i) > 0{
+		return errors.New("no such commands")
+	}
 	resp, err := cfg.pokeapiClient.ListLocationAreas(cfg.nextLocationAreaURL)
 	if err != nil{
 		log.Fatal(err)
@@ -22,7 +24,10 @@ func commandMap(cfg *config) error {
    return nil	
 }
 
-func commandMapb(cfg *config) error {
+func commandMapb(cfg *config, i string) error {
+	if len(i) > 0{
+		return errors.New("no such commands")
+	}
 	
 	resp, err := cfg.pokeapiClient.ListLocationAreas( cfg.previousLocationAreaURL)
 	if err != nil{

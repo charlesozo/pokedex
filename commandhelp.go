@@ -1,8 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
-func commandHelp(cfg *config) error {
+func commandHelp(cfg *config, i string) error {
+	if len(i) > 0{
+		return errors.New("no such commands")
+	}
 	fmt.Println()
 	fmt.Println("Welcome to the Pokedex!")
 	fmt.Println("Usage:")
