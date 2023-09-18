@@ -21,6 +21,7 @@ func commandCatch(c *config, poke_name string) error {
 	_, exists := pokemonTrack[poke_name]
 	if exists {
 		fmt.Printf("\n%s has already been caught\n", poke_name)
+		fmt.Println("you can inspect it with the inspect command")
 	} else {
 		fmt.Printf("Throwing a Pokeball at %s...", poke_name)
 		baseExperience := resp.BaseExperience
@@ -33,6 +34,7 @@ func commandCatch(c *config, poke_name string) error {
 				height: resp.Height,
 				weight: resp.Weight,
 			}
+			fmt.Println("you may now inspect it with the inspect command")
 		} else {
 			fmt.Printf("\n%s escaped\n", poke_name)
 		}
